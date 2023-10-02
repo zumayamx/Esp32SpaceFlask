@@ -1,0 +1,101 @@
+#include <WiFi.h>
+#include <HTTPClient.h> 
+#include <ArduinoJson.h>  
+#include <Adafruit_Sensor.h>
+#include <DHTesp.h>
+
+const int DHT_PIN = 15;
+DHTesp dhtSensor;
+
+// Replace with your network credentials
+const char* ssid = "Tec-Contingencia"; 
+const char* password = "";
+// const char* ssid = "Ruben"; 
+// const char* password = "rubenraya";
+
+// Replace with your API endpoint
+const char* apiEndpoint = "https://congenial-system-w4x5xgv7gxq39xp9-5000.app.github.dev/sensor_data";
+
+// Function to connect to Wi-Fi using the provided credentials
+void setupWifi() 
+{
+  Serial.begin(9600);
+  Serial.print("Connecting to WiFi");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(100);
+    Serial.print(".");
+  }
+  Serial.print(" Connected: ");
+  Serial.println(WiFi.localIP());
+}
+
+// Function to initialize the DHT sensor
+void setupDHT() 
+{
+  Serial.begin(115200);
+  dhtSensor.setup(DHT_PIN, DHTesp::DHT22);
+}
+
+void setup()
+{
+  setupWifi();
+  setupDHT();
+}
+
+void sendData(float temperature, float humidity) 
+{
+  Serial.print("Sending data to API: ");
+
+  // Set up HTTP connection with the API endpoint
+  HTTPClient http;
+  http.begin(apiEndpoint);
+  http.addHeader("Content-Type", "application/json");
+
+  // Create a JSON document using the ArduinoJson library
+  StaticJsonDocument<200> doc;
+
+  // Add the data to the JSON document
+  doc["temperature"] = "0.1";
+  doc["humidity"] = "0.2";
+
+  // Add the current date and time to the JSON document. This will change to a date from the proper sensor in the future
+  doc["date_time"] = "2021-01-01 00:00:00";
+
+  // Serialize the JSON document to a string
+  String json;
+  serializeJson(doc, json);
+
+  // Send the POST request to the API endpoint
+  int httpResponseCode = http.POST(json);
+  if (httpResponseCode > 0) 
+  {
+    // Print the response from the server
+    Serial.print("HTTP Response code: ");
+    Serial.println(httpResponseCode);
+    String responseString = http.getString();
+    Serial.println("Received response: " + responseString);
+  } else 
+  {
+    // Print the error code
+    Serial.print("Error code: ");
+    Serial.println(httpResponseCode);
+  }
+  http.end();
+}
+
+void loop() 
+{
+  // Read the temperature and humidity from the DHT sensor
+  TempAndHumidity  data = dhtSensor.getTempAndHumidity();
+
+  // Print the temperature and humidity to the serial monitor
+  Serial.println("Temp: " + String(data.temperature, 2) + "°C");
+  Serial.println("Humidity: " + String(data.humidity, 1) + "%");
+  Serial.println("---");
+
+  // Send the data to the API endpoint
+  sendData(data.temperature, data.humidity);
+
+  delay(5000);
+}
