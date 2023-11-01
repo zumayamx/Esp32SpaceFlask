@@ -1,11 +1,11 @@
 #include <WiFi.h>
 #include <HTTPClient.h> 
 #include <ArduinoJson.h>  
-#include <Adafruit_Sensor.h>
-#include <DHTesp.h>
+// #include <Adafruit_Sensor.h>
+// #include <DHTesp.h>
 
 const int DHT_PIN = 15;
-DHTesp dhtSensor;
+// DHTesp dhtSensor;
 
 // Replace with your network credentials
 const char* ssid = "Tec-Contingencia"; 
@@ -34,13 +34,13 @@ void setupWifi()
 void setupDHT() 
 {
   Serial.begin(115200);
-  dhtSensor.setup(DHT_PIN, DHTesp::DHT22);
+  // dhtSensor.setup(DHT_PIN, DHTesp::DHT22);
 }
 
 void setup()
 {
   setupWifi();
-  setupDHT();
+  // setupDHT();
 }
 
 void sendData(float temperature, float humidity) 
@@ -87,15 +87,16 @@ void sendData(float temperature, float humidity)
 void loop() 
 {
   // Read the temperature and humidity from the DHT sensor
-  TempAndHumidity  data = dhtSensor.getTempAndHumidity();
+  // TempAndHumidity  data = dhtSensor.getTempAndHumidity();
 
   // Print the temperature and humidity to the serial monitor
-  Serial.println("Temp: " + String(data.temperature, 2) + "°C");
-  Serial.println("Humidity: " + String(data.humidity, 1) + "%");
-  Serial.println("---");
+  // Serial.println("Temp: " + String(data.temperature, 2) + "°C");
+  // Serial.println("Humidity: " + String(data.humidity, 1) + "%");
+  // Serial.println("---");
 
   // Send the data to the API endpoint
-  sendData(data.temperature, data.humidity);
+  // sendData(data.temperature, data.humidity);
+  sendData(1.0, 1.2);
 
   delay(5000);
 }
