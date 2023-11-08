@@ -1,3 +1,4 @@
+import mysql
 from flask import Flask, request, render_template, jsonify
 from datetime import date, datetime, timedelta
 import mysql.connector
