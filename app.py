@@ -9,6 +9,11 @@ import base64
 
 app = Flask(__name__)
 
+for i in range (12):
+    print("hola", i )
+
+
+
 
 def createConnection(user_name, database_name, user_password, host, port):
     cnx = mysql.connector.connect(
