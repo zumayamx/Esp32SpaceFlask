@@ -22,6 +22,8 @@ def createConnection(user_name, database_name, user_password, host, port):
     return (cnx, cursor)
 
 
+
+
 @app.route('/', methods=['GET'])
 def get_sensor_data():
     # Create a connection to the database
