@@ -24,7 +24,7 @@ def createConnection(user_name, database_name, user_password, host, port):
 def get_sensor_data():
     # Create a connection to the database
     cnx, cursor = createConnection(
-            'sql10651035', 'sql10651035', 'tkQyMRXggg', 'sql10.freemysqlhosting.net', '3306')
+            'sql3662385', 'sql3662385', '9jxvCJC8Uu', 'sql3.freemysqlhosting.net', '3306')
 
     # Query the database
     query = ("SELECT * FROM dht_sensor_data")
