@@ -23,7 +23,7 @@ def get_sensor_data():
             'sql3662385', 'sql3662385', '9jxvCJC8Uu', 'sql3.freemysqlhosting.net', '3306')
 
     # Query the database
-    query = ("SELECT * FROM dht_sensor_data")
+    query = ("SELECT * FROM sensor_data")
 
     # Execute the query
     cursor.execute(query)
@@ -68,13 +68,13 @@ def receive_sensor_data():
 
         humidity = data.get('humidity')
         temperature = data.get('temperature')
-        date_time = data.get('date_time') # "2021-08-08 12:00:00"
+        gas = data.get('gas') 
 
         cnx, cursor = createConnection('sql3662385', 'sql3662385', '9jxvCJC8Uu', 'sql3.freemysqlhosting.net', '3306')
 
-        add_data = ("INSERT INTO dht_sensor_data (humidity, temperature, date_time) VALUES (%s, %s, %s)")
+        add_data = ("INSERT INTO sensor_data (humidity, temperature, gas) VALUES (%s, %s, %s)")
         
-        cursor.execute(add_data, (humidity, temperature, date_time))
+        cursor.execute(add_data, (humidity, temperature, gas))
         cnx.commit()
         cursor.close()
         cnx.close()
