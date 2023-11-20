@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Gráfica</title>
 </head>
-
 <body>
     <h1>Gráfica de Datos</h1>
-    <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica">
-</body>
+    <img id="dataImage" src="data:image/png;base64,{{ img_data }}" alt="Gráfica">
+    
+    <script>
+        function updateImage() {
+            var image = document.getElementById('dataImage');
+            // Añade una marca de tiempo para prevenir el caché del navegador
+            image.src = 'data:image/png;base64,{{ img_data }}' + '&t=' + new Date().getTime();
+        }
 
+        // Actualiza la imagen cada 5000 milisegundos (5 segundos)
+        setInterval(updateImage, 5000);
+    </script>
+</body>
 </html>
