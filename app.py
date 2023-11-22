@@ -20,7 +20,7 @@ def createConnection(user_name, database_name, user_password, host, port):
 def get_sensor_data():
     # Create a connection to the database
     cnx, cursor = createConnection(
-            'sql3662385', 'sql3662385', '9jxvCJC8Uu', 'sql3.freemysqlhosting.net', '3306')
+            'sql3664252', 'sql3664252', 'IqYKx2ZXzW', 'sql3.freemysqlhosting.net', '3306')
 
     # Query the database
     query = ("SELECT * FROM sensor_data")
@@ -71,7 +71,7 @@ def receive_sensor_data():
         gas = data.get('gas')
         light = data.get('light')
 
-        cnx, cursor = createConnection('sql3662385', 'sql3662385', '9jxvCJC8Uu', 'sql3.freemysqlhosting.net', '3306')
+        cnx, cursor = createConnection('sql3664252', 'sql3664252', 'IqYKx2ZXzW', 'sql3.freemysqlhosting.net', '3306')
 
         add_data = ("INSERT INTO sensor_data (humidity, temperature, gas, light) VALUES (%s, %s, %s, %s)")
         
