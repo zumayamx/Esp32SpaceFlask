@@ -42,8 +42,8 @@ def get_sensor_data():
 
     # Crear la gráfica
     plt.figure(figsize=(8, 4))
-    plt.plot(x, y1, label='Valor 1')
-    plt.plot(x, y2, label='Valor 2')
+    plt.plot(x, y1, label='Temperatura')
+    plt.plot(x, y2, label='Humedad')
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.legend()
@@ -69,13 +69,14 @@ def receive_sensor_data():
         humidity = data.get('humidity')
         temperature = data.get('temperature')
         gas = data.get('gas')
-        light = data.get('light')
+        humedad_tierra = data.get('hum_tierra')
+        intensidad_luz = data.get('inten_luz')
 
         cnx, cursor = createConnection('sql3664252', 'sql3664252', 'IqYKx2ZXzW', 'sql3.freemysqlhosting.net', '3306')
 
-        add_data = ("INSERT INTO sensor_data (humidity, temperature, gas, light) VALUES (%s, %s, %s, %s)")
+        add_data = ("INSERT INTO sensor_data (humidity, temperature, gas, humit, intensidad_luz ) VALUES (%s, %s, %s, %s, %s)")
         
-        cursor.execute(add_data, (humidity, temperature, gas, light))
+        cursor.execute(add_data, (humidity, temperature, gas, humedad_tierra, intensidad_luz))
         cnx.commit()
         cursor.close()
         cnx.close()
